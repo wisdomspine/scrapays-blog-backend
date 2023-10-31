@@ -1,0 +1,25 @@
+name: Deploy To Heroku
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run unit tests
+        run: npm run test
+      - name: Run e2e tests
+        run: npm run test:e2e
+      - name: Build artefacts
+        run: npm run build
+      - uses: CDNievas/heroku-action@v1.0 # This is the action
+        with:
+          heroku_email: '${{secrets.HEROKU_EMAIL}}'
+          heroku_api_key: '${{secrets.HEROKU_API_KEY}}'
+          heroku_app_name: '${{secrets.HEROKU_APP_NAME}}'
+          appdir: 'dist'
+          dynamicFiles: true
+          procfile: 'web: start:prod'
+          buildpacks: "['https://github.com/heroku/heroku-buildpack-nodejs.git','https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git']"
