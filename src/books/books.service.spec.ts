@@ -55,12 +55,20 @@ describe('BooksService', () => {
   describe('update()', () => {
     beforeEach(() => {
       repository.update = jest.fn();
-      repository.findOne = jest.fn();
     });
-    it('should update book, and return an update', async () => {
+    it('should update book', async () => {
       const book = new Book({ id: 1, title: 'The agon of Tom Sawyer' });
       await service.update(book.id, book);
       expect(repository.update).toHaveBeenCalledWith(book.id, book);
+    });
+  });
+
+  describe('findOne()', () => {
+    beforeEach(() => {
+      repository.findOne = jest.fn();
+    });
+    it('should return a match', async () => {
+      await service.findOne(1);
       expect(repository.findOne).toHaveBeenCalled();
     });
   });

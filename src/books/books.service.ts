@@ -30,6 +30,8 @@ export class BooksService {
   }
   async update(id: number, update: Partial<Book>) {
     await this.repository.update(id, update);
+  }
+  async findOne(id: number) {
     return this.repository.findOne({
       where: {
         id,

@@ -5,6 +5,8 @@ import { AppConfigModule } from './app-config/app-config.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppConfigService } from 'app-config';
 import { BooksModule } from './books/books.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
@@ -13,6 +15,10 @@ import { BooksModule } from './books/books.module';
       imports: [AppConfigModule],
       useFactory: (appConfig: AppConfigService) => appConfig.db,
       inject: [AppConfigService],
+    }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: 'src/schema.gql',
     }),
     BooksModule,
   ],
