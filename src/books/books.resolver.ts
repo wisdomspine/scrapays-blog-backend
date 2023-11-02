@@ -2,10 +2,24 @@ import { Args, Int, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { Book } from './book.entity';
 import { BooksService } from './books.service';
 import { BookDto } from './dtos/book.dto';
+import { HttpStatus, NotFoundException } from '@nestjs/common';
 
 @Resolver((of) => Book)
 export class BooksResolver {
   constructor(private readonly booksService: BooksService) {}
+
+  @Query((of) => Book, { name: 'book' })
+  async getBook(@Args('id', { type: () => Int }) id: number) {
+    const book = await this.booksService.findOne(id);
+    if (book == null) {
+      throw new NotFoundException({
+        message: 'Book not found',
+        statusCode: HttpStatus.NOT_FOUND,
+      });
+    }
+    return book;
+  }
+
   @Query((of) => [Book], { name: 'books' })
   getBooks(
     @Args('s', {

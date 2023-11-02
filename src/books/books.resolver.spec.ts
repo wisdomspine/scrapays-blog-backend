@@ -94,4 +94,12 @@ describe('BooksResolver', () => {
       expect(value).toEqual('Book deleted');
     });
   });
+
+  describe('getBook()', () => {
+    it('should get book', async () => {
+      const result = await resolver.getBook(id);
+      expect(booksService.findOne).toHaveBeenCalledWith(id);
+      expect(result).toEqual(findOneResult);
+    });
+  });
 });

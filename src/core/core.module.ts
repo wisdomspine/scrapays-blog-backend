@@ -1,6 +1,5 @@
 import { ApolloDriverConfig, ApolloDriver } from '@nestjs/apollo';
 import {
-  BadRequestException,
   HttpException,
   HttpStatus,
   Module,
