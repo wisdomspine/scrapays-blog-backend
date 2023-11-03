@@ -25,7 +25,6 @@ export class AppConfigService {
     return {
       audience: this.configService.get<string>('AUDIENCE'),
       issueDomain: this.configService.get<string>('ISSUER_BASE_URL'),
-      clientOrigin: this.configService.get<string>('CLIENT_ORIGIN_URL'),
     };
   }
 }
