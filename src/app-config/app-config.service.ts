@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Environment } from './types';
+import { Environment, OAuthConfig } from './types';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 @Injectable()
@@ -19,5 +19,13 @@ export class AppConfigService {
 
   get db(): TypeOrmModuleOptions {
     return this.configService.get<TypeOrmModuleOptions>('DB');
+  }
+
+  get oauth0(): OAuthConfig {
+    return {
+      audience: this.configService.get<string>('AUDIENCE'),
+      issueDomain: this.configService.get<string>('ISSUER_BASE_URL'),
+      clientOrigin: this.configService.get<string>('CLIENT_ORIGIN_URL'),
+    };
   }
 }
